@@ -322,8 +322,8 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
         
     #for saving json format data
-    with open("log/image_log.json", "w", encoding='utf-8-sig') as json_file:
-        json.dump(data, json_file, ensure_ascii=False)   
+    with open(f"{save_dir}/{json_name}.json", "w", encoding="utf-8-sig") as json_file:
+        json.dump(data, json_file, ensure_ascii=False)  
      
     result_name = f"{json_name}.mp4"
     move_dog(json_name, save_dir)
