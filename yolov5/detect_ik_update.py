@@ -18,6 +18,9 @@ import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
 
+from highlight import Highlight
+from json_move import move_dog
+
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
 if str(ROOT) not in sys.path:
@@ -312,9 +315,19 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
 
+    json_name = os.path.basename(source)
+    json_name = os.path.splitext(json_name)[0]
+
+    save_dir = increment_path(Path("runs/log") / json_name, exist_ok=exist_ok)  # increment run
+    (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
+        
     #for saving json format data
     with open("log/image_log.json", "w", encoding='utf-8-sig') as json_file:
-        json.dump(data, json_file, ensure_ascii=False)
+        json.dump(data, json_file, ensure_ascii=False)   
+     
+    result_name = f"{json_name}.mp4"
+    move_dog(json_name, save_dir)
+    Highlight(path, result_name, json_name, save_dir)
     
     #print(f"Done. ({time.time() - t0:.3f}s)")
 
@@ -353,15 +366,11 @@ def parse_opt():
 
 def main(opt):
     print(colorstr('detect: ') + ', '.join(f'{k}={v}' for k, v in vars(opt).items()))
-    print("확인 1번")
     
     check_requirements(exclude=('tensorboard', 'thop'))
-    print("확인 2번")
 
     check_requirements(exclude=('tensorboard', 'thop'))
     run(**vars(opt))
-
-    print("확인 3번")
 
 if __name__ == "__main__":
     opt = parse_opt()
