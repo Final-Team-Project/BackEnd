@@ -2,10 +2,8 @@
 
 ### 1. Purpose
 
-- Based on the video(data), detects the companion dog's coordinates and visualizes the active of the dog with di
-verse graphs. 
-
-- Records the highlight video of the day from the selected data  
+- Based on the video(data), detect the companion dog's coordinates and visualize the dog's activity with various graphs.
+- Record the highlight video of the day from the selected data
 
 ### 2. Required Technical Skills 
 - Yolov5(Python), Seaborn, OpenCV, AWS
