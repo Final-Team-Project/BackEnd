@@ -1,0 +1,5 @@
+train : ./dog/images
+val : ./dog/images
+
+nc : 2
+names : ['dog', 'ball']
