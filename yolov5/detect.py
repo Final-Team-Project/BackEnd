@@ -31,7 +31,7 @@ from models.experimental import attempt_load
 from utils.datasets import LoadImages, LoadStreams
 from utils.general import apply_classifier, check_img_size, check_imshow, check_requirements, check_suffix, colorstr, \
     increment_path, non_max_suppression, print_args, save_one_box, scale_coords, set_logging, \
-    strip_optimizer, xyxy2xywh
+    strip_optimizer, xyxy2xywh, create_dir
 from utils.plots import Annotator, colors
 from utils.torch_utils import load_classifier, select_device, time_sync
 
@@ -147,7 +147,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     for path, img, im0s, vid_cap in dataset:
         delay_frame += 1
         t1 = time_sync()
-        if delay_frame % 12 == 0 :
+        if delay_frame % 60 == 0 :
             if onnx:
                 img = img.astype('float32')
             else:
@@ -318,16 +318,19 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     json_name = os.path.basename(source)
     json_name = os.path.splitext(json_name)[0]
 
-    save_dir = increment_path(Path("runs/log") / json_name, exist_ok=exist_ok)  # increment run
-    (save_dir / 'labels' if save_txt else save_dir).mkdir(parents=True, exist_ok=True)  # make dir
-        
+
     #for saving json format data
-    with open(f"{save_dir}/{json_name}.json", "w", encoding="utf-8-sig") as json_file:
-        json.dump(data, json_file, ensure_ascii=False)  
+    json_dir = "runs/log" 
+    create_dir(json_dir)
+    with open(f"{json_dir}/{json_name}.json", "w", encoding="utf-8-sig") as json_file:
+        json.dump(data, json_file, ensure_ascii=False)   
      
+    # json파일 읽는부분
     result_name = f"{json_name}.mp4"
-    move_dog(json_name, save_dir)
-    Highlight(path, result_name, json_name, save_dir)
+    move_dog(json_name, json_dir)
+
+    # 하이라이트 만드는 부분
+    Highlight(path, result_name, json_name, json_dir)
     
     #print(f"Done. ({time.time() - t0:.3f}s)")
 
@@ -375,3 +378,4 @@ def main(opt):
 if __name__ == "__main__":
     opt = parse_opt()
     main(opt)
+
