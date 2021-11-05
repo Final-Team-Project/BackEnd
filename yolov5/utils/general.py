@@ -820,3 +820,10 @@ def increment_path(path, exist_ok=False, sep='', mkdir=False):
     if not dir.exists() and mkdir:
         dir.mkdir(parents=True, exist_ok=True)  # make directory
     return path
+
+def create_dir(directory):
+    try: 
+        if not os.path.exists(directory): 
+            os.makedirs(directory)
+    except OSError:
+        print("Error: Failed to create the directory.")
