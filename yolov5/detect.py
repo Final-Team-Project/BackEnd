@@ -10,7 +10,6 @@ import os
 import sys
 import time
 from pathlib import Path
-import datetime
 import json
 
 import cv2
@@ -20,6 +19,7 @@ import torch.backends.cudnn as cudnn
 
 from highlight import Highlight
 from json_move import move_dog
+from JsonProcessing import json_processing
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -332,7 +332,8 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     # 하이라이트 만드는 부분
     Highlight(path, result_name, json_name, json_dir)
     
-    #print(f"Done. ({time.time() - t0:.3f}s)")
+    # 데이터 프레임 생성 및 시각화 자료 저장
+    json_processing(json_name, json_dir)
 
 def parse_opt():
     parser = argparse.ArgumentParser()
