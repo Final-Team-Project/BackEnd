@@ -205,17 +205,3 @@ def json_processing(json_name, json_dir):
     sns.heatmap(pivot_df, cmap = 'Blues', annot=True, fmt="d", linewidths=.5, ax=ax)
     #plt.show()
     plt.savefig(os.path.join(json_dir,'./graph3.png'))
-
-
-
-
-
-    
-    
-    
-
-
-if __name__ == '__main__':
-    json_processing(json_data)
-    
-
